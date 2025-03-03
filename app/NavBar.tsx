@@ -11,7 +11,7 @@ const NavBar = () => {
     { label: "Issues", href: "/issues" },
   ];
   return (
-    <nav className="flex justify-between items-center shadow p-2 h-14">
+    <nav className="flex justify-between items-center shadow p-2 h-14 mb-4">
       <Link href={"/"}>
         <AiFillBug size={"30px"} />
       </Link>
