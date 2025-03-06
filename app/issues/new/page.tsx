@@ -1,4 +1,5 @@
 "use client";
+import ErrorMessage from "@/app/components/ErrorMessage";
 import { createIsssueSchema } from "@/app/createIsssueSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Callout, Text, TextArea, TextField } from "@radix-ui/themes";
@@ -48,19 +49,9 @@ function newIssuePage() {
         })}
       >
         <TextField.Root placeholder="Title" {...register("title")} />
-        <div className="mt-[-12px] mb-[12px]">
-          {errors.title && (
-            <Text color="red" as="p">
-              {errors.title?.message}
-            </Text>
-          )}
-        </div>
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <TextArea placeholder="Description" {...register("description")} />
-        <div className="mt-[-12px] mb-[12px]">
-          {errors.description && (
-            <Text color="red">{errors.description?.message}</Text>
-          )}
-        </div>
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button>Create New Issue</Button>
       </form>
     </div>
