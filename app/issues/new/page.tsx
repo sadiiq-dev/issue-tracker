@@ -41,7 +41,7 @@ function newIssuePage() {
         onSubmit={handleSubmit(async (data) => {
           try {
             await axios.post("/api/issue/create", data);
-            router.push("/issues/new");
+            router.push("/issues");
           } catch (error) {
             setError("an expected error occured.");
           }
@@ -56,9 +56,11 @@ function newIssuePage() {
           )}
         </div>
         <TextArea placeholder="Description" {...register("description")} />
-        {errors.description && (
-          <Text color="red">{errors.description?.message}</Text>
-        )}
+        <div className="mt-[-12px] mb-[12px]">
+          {errors.description && (
+            <Text color="red">{errors.description?.message}</Text>
+          )}
+        </div>
         <Button>Create New Issue</Button>
       </form>
     </div>
