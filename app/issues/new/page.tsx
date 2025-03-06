@@ -2,10 +2,10 @@
 import ErrorMessage from "@/app/components/ErrorMessage";
 import { createIsssueSchema } from "@/app/createIsssueSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, Callout, Text, TextArea, TextField } from "@radix-ui/themes";
+import { Button, Callout, TextArea, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-
+import Spinner from "@/app/components/Spinner";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -29,6 +29,7 @@ function newIssuePage() {
     resolver: zodResolver(createIsssueSchema),
   });
   const [error, setError] = useState("");
+  const [isSubmitting, setSubmitting] = useState(false);
   const router = useRouter();
   return (
     <div className="max-w-xl space-y-3.5">
@@ -41,9 +42,11 @@ function newIssuePage() {
         className="max-w-xl space-y-3.5"
         onSubmit={handleSubmit(async (data) => {
           try {
+            setSubmitting(true);
             await axios.post("/api/issue/create", data);
             router.push("/issues");
           } catch (error) {
+            setSubmitting(false);
             setError("an expected error occured.");
           }
         })}
@@ -52,7 +55,7 @@ function newIssuePage() {
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <TextArea placeholder="Description" {...register("description")} />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button>Create New Issue</Button>
+        <Button>Create New Issue {isSubmitting && <Spinner />}</Button>
       </form>
     </div>
   );
