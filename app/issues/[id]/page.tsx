@@ -17,13 +17,13 @@ const issueDetailPage = async ({ params }: Props) => {
   return (
     <>
       <GoBackButton />
-      <div className="mt-5">
+      <div className="mt-8">
         <Heading>{issue.title}</Heading>
-        <Flex gap={"10px"} className="items-center" my={"2"}>
+        <Flex gap={"10px"} className="items-center" my={"3"}>
           <IssueStatusBadge status={issue.status} />
           <p> {issue.createdAt.toDateString()}</p>
         </Flex>
-        <Card> {issue.description}</Card>
+        <Card className="w-120"> {issue.description}</Card>
       </div>
     </>
   );
