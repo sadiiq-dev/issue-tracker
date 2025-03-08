@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Callout, TextArea, TextField } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import Spinner from "@/app/components/Spinner";
+import { Spinner } from "@/app/components/index";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";

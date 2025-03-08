@@ -1,4 +1,4 @@
-import GoBackButton from "@/app/components/GoBackButton";
+import { GoBackButton } from "@/app/components/index";
 import IssueStatusBadge from "@/app/components/IssueStatusBadge";
 import { prisma } from "@/prisma/client";
 import { Card, Flex, Heading } from "@radix-ui/themes";
