@@ -1,6 +1,7 @@
 import GoBackButton from "@/app/components/GoBackButton";
+import IssueStatusBadge from "@/app/components/IssueStatusBadge";
 import { prisma } from "@/prisma/client";
-import { Button } from "@radix-ui/themes";
+import { Card, Flex, Heading } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
 import React from "react";
 
@@ -16,11 +17,13 @@ const issueDetailPage = async ({ params }: Props) => {
   return (
     <>
       <GoBackButton />
-      <div>
-        <p> {issue.title}</p>
-        <p> {issue.description}</p>
-        <p> {issue.status}</p>
-        <p> {issue.createdAt.toDateString()}</p>
+      <div className="mt-5">
+        <Heading>{issue.title}</Heading>
+        <Flex gap={"10px"} className="items-center" my={"2"}>
+          <IssueStatusBadge status={issue.status} />
+          <p> {issue.createdAt.toDateString()}</p>
+        </Flex>
+        <Card> {issue.description}</Card>
       </div>
     </>
   );
