@@ -1,4 +1,5 @@
 "use client";
+import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import { Button } from "@radix-ui/themes";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -15,7 +16,7 @@ const GoBackButton = () => {
         }}
       >
         <div className="cursor-pointer">
-          <RiArrowGoBackFill />
+          <ArrowLeftIcon />
           Go back
         </div>
       </Button>
