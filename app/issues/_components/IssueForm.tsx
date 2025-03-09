@@ -1,6 +1,6 @@
 "use client";
 import ErrorMessage from "@/app/components/ErrorMessage";
-import { createIsssueSchema } from "@/app/createIsssueSchema";
+import { schemaCreateForm } from "@/app/createIsssueSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Callout, TextArea, TextField } from "@radix-ui/themes";
 import axios from "axios";
@@ -31,7 +31,7 @@ function IssueForm({ issue }: Props) {
     handleSubmit,
     formState: { errors },
   } = useForm<FormNewIssue>({
-    resolver: zodResolver(createIsssueSchema),
+    resolver: zodResolver(schemaCreateForm),
   });
   const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
