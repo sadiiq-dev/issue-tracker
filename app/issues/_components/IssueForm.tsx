@@ -40,7 +40,8 @@ function IssueForm({ issue }: Props) {
   const onSubmit = handleSubmit(async (data) => {
     try {
       setSubmitting(true);
-      await axios.post("/api/issue/create", data);
+      if (issue) await axios.put(`/api/issue/update/${issue.id}`, data);
+      else await axios.post("/api/issue/create", data);
       router.push("/issues");
     } catch (error) {
       setSubmitting(false);
@@ -68,7 +69,11 @@ function IssueForm({ issue }: Props) {
           {...register("description")}
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button>Create New Issue {isSubmitting && <Spinner />}</Button>
+        <Button>
+          {" "}
+          {isSubmitting && <Spinner />}
+          {issue ? "Edit Issue" : "Create New Issue"}{" "}
+        </Button>
       </form>
     </div>
   );
