@@ -43,6 +43,7 @@ function IssueForm({ issue }: Props) {
       if (issue) await axios.put(`/api/issue/update/${issue.id}`, data);
       else await axios.post("/api/issue/create", data);
       router.push("/issues");
+      router.refresh();
     } catch (error) {
       setSubmitting(false);
       setError("an expected error occured.");
