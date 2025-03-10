@@ -8,13 +8,7 @@ import { useRouter } from "next/navigation";
 import { Spinner } from "@/app/components/index";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Issue } from "@prisma/client";
-
-const schemaIssueForm = z.object({
-  title: z.string().max(250),
-  description: z.string(),
-});
 
 interface FormNewIssue {
   title: string;
@@ -33,7 +27,7 @@ function IssueForm({ issue }: Props) {
   } = useForm<FormNewIssue>({
     resolver: zodResolver(schemaCreateForm),
   });
-  const [error, setError] = useState("");
+  const [error, setError] = useState(""); // Declared here
   const [isSubmitting, setSubmitting] = useState(false);
   const router = useRouter();
 
@@ -46,7 +40,7 @@ function IssueForm({ issue }: Props) {
       router.refresh();
     } catch (error) {
       setSubmitting(false);
-      setError("an expected error occured.");
+      setError("An unexpected error occurred." + error);
     }
   });
 
@@ -71,9 +65,8 @@ function IssueForm({ issue }: Props) {
         />
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
         <Button>
-          {" "}
           {isSubmitting && <Spinner />}
-          {issue ? "Edit Issue" : "Create New Issue"}{" "}
+          {issue ? "Edit Issue" : "Create New Issue"}
         </Button>
       </form>
     </div>

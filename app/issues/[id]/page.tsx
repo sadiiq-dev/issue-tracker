@@ -1,10 +1,6 @@
-import IssueStatusBadge from "@/app/components/IssueStatusBadge";
 import { prisma } from "@/prisma/client";
-import { Box, Button, Card, Flex, Grid, Heading } from "@radix-ui/themes";
+import { Box, Grid } from "@radix-ui/themes";
 import { notFound } from "next/navigation";
-import React from "react";
-import { Pencil2Icon } from "@radix-ui/react-icons";
-import Link from "next/link";
 import EditButton from "./EditButton";
 import GoBackButton from "./GoBackButton";
 import IssueDetail from "./IssueDetail";
