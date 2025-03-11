@@ -5,12 +5,12 @@ import { AiFillDelete } from "react-icons/ai";
 
 const DeleteButton = ({ issueId }: { issueId: Number }) => {
   return (
-    <Link href={`/issues/${issueId}/edit`}>
+    <div>
       <Button color="red">
         <AiFillDelete />
         Edit The Issue
       </Button>
-    </Link>
+    </div>
   );
 };
 
