@@ -32,14 +32,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased p-4 `}
       >
-        <Container>
-          <AuthProvider>
-            <NavBar />
-            <main>
-              <Theme accentColor="violet">{children}</Theme>
-            </main>
-          </AuthProvider>
-        </Container>
+        <Theme accentColor="violet">
+          <Container>
+            <AuthProvider>
+              <NavBar />
+              <main>{children}</main>
+            </AuthProvider>
+          </Container>
+        </Theme>
       </body>
     </html>
   );
