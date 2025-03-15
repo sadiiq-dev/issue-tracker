@@ -1,7 +1,21 @@
+"use client";
+import { User } from "@prisma/client";
 import { Box, Select } from "@radix-ui/themes";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const SelectAssignee = () => {
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const { data } = await axios.get("/api/users");
+      setUsers(data);
+    };
+
+    fetchUsers();
+  }, []);
+
   return (
     <Box>
       <Select.Root>
@@ -9,8 +23,11 @@ const SelectAssignee = () => {
         <Select.Content>
           <Select.Group>
             <Select.Label>Sugesstions</Select.Label>
-            <Select.Item value="sadiiq">Sadiiq Mukhtaatr</Select.Item>
-            <Select.Item value="ahmed">Ahmed Isse</Select.Item>
+            {users.map((user) => (
+              <Select.Item value={user.id} key={user.id}>
+                {user.name}
+              </Select.Item>
+            ))}
           </Select.Group>
         </Select.Content>
       </Select.Root>
