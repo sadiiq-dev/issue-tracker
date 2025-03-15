@@ -8,6 +8,7 @@ import DeleteButton from "./DeleteButton";
 import { getSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
+import SelectAssignee from "./SelectAssignee";
 interface Props {
   params: { id: string };
 }
@@ -28,6 +29,7 @@ const issueDetailPage = async ({ params }: Props) => {
         <Box mt={"4"}>
           {session && (
             <Flex direction={"column"} gapY={"4"}>
+              <SelectAssignee />
               <EditButton issueId={issue.id} />
               <DeleteButton issueId={issue.id} />
             </Flex>
