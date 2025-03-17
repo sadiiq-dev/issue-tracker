@@ -1,5 +1,5 @@
 import authOptions from "@/app/auth/authOptions";
-import { schemaCreateForm } from "@/app/createIsssueSchema";
+import { schemaUpdateIssue } from "@/app/createIsssueSchema";
 import { prisma } from "@/prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
   if (!session) return NextResponse.json({}, { status: 401 });
 
   const body: Body = await req.json();
-  const validation = schemaCreateForm.safeParse(body);
+  const validation = schemaUpdateIssue.safeParse(body);
 
   if (!validation.success)
     return NextResponse.json(validation.error.errors, { status: 400 });
