@@ -1,11 +1,11 @@
 "use client";
-import { Status } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 
-const IssuesFilter = () => {
+const IssuesSort = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const systemOfOrdering: { label: string; value?: "asc" | "desc" }[] = [
     { label: "None" },
     { label: "Ascending...", value: "asc" },
@@ -13,8 +13,13 @@ const IssuesFilter = () => {
   ];
   return (
     <Select.Root
+      defaultValue={searchParams.get("orderBy")!}
       onValueChange={(orderBy) => {
-        const query = orderBy === "None" ? "" : `?orderBy=${orderBy}`;
+        const params = new URLSearchParams();
+        if (orderBy) params.append("orderBy", orderBy);
+        if (searchParams.get("status"))
+          params.append("status", searchParams.get("status")!);
+        const query = params.size ? `?${params}` : "";
         router.push(`/issues` + query);
       }}
     >
@@ -30,4 +35,4 @@ const IssuesFilter = () => {
   );
 };
 
-export default IssuesFilter;
+export default IssuesSort;
