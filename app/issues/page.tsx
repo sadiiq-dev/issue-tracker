@@ -3,15 +3,16 @@ import { Table } from "@radix-ui/themes";
 import React from "react";
 import IssueActions from "./IssueActions";
 import { IssueStatusBadge, Link } from "../components/index";
-import { Status } from "@prisma/client";
-import { object } from "zod";
-
+import { Issue, Status } from "@prisma/client";
+import NextLink from "next/link";
+import { AiOutlineArrowUp } from "react-icons/ai";
 interface Props {
-  searchParams: Promise<{ status: string }>;
+  searchParams: Promise<{ status: string; orderBy: keyof Issue }>;
 }
 
 const IssuePage = async ({ searchParams }: Props) => {
-  const { status } = await searchParams;
+  const awaitedSearchParams = await searchParams;
+  const { status, orderBy } = await searchParams;
 
   const statuses = Object.values(Status);
   const searchedStatus = statuses.includes(status as Status)
@@ -24,15 +25,37 @@ const IssuePage = async ({ searchParams }: Props) => {
     },
   });
 
+  const column: {
+    label: string;
+    value: keyof Issue;
+    className?: string;
+  }[] = [
+    { label: "Issue", value: "title" },
+    { label: "Status", value: "status", className: "hidden md:table-cell" },
+    { label: "created", value: "createdAt", className: "hidden md:table-cell" },
+  ];
+
   return (
     <div>
       <IssueActions />
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
-            <Table.Cell>Issue</Table.Cell>
-            <Table.Cell className="hidden md:table-cell">Status</Table.Cell>
-            <Table.Cell className="hidden md:table-cell">Created</Table.Cell>
+            {column.map((column) => (
+              <Table.Cell key={column.value} className={column.className}>
+                <NextLink
+                  href={{
+                    query: { ...awaitedSearchParams, orderBy: column.value },
+                  }}
+                >
+                  {" "}
+                  {column.label}
+                  {column.value === orderBy && (
+                    <AiOutlineArrowUp className="inline ml-2" />
+                  )}
+                </NextLink>
+              </Table.Cell>
+            ))}
           </Table.Row>
         </Table.Header>
         <Table.Body>
