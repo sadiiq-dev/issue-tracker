@@ -1,31 +1,17 @@
 import { prisma } from "@/prisma/client";
-import { Table } from "@radix-ui/themes";
+import { Flex, Table } from "@radix-ui/themes";
 import React from "react";
 import IssueActions from "./IssueActions";
 import { IssueStatusBadge, Link } from "../components/index";
 import { Issue, Status } from "@prisma/client";
 import NextLink from "next/link";
-import { AiOutlineArrowUp } from "react-icons/ai";
+import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 interface Props {
-  searchParams: Promise<{ status: string; orderBy: keyof Issue }>;
+  searchParams: Promise<{ status: string; orderBy: "asc" | "desc" }>;
 }
 
 const IssuePage = async ({ searchParams }: Props) => {
-  const awaitedSearchParams = await searchParams;
-  const { status, orderBy } = await searchParams;
-
-  const statuses = Object.values(Status);
-  const searchedStatus = statuses.includes(status as Status)
-    ? status
-    : undefined;
-
-  const issues = await prisma.issue.findMany({
-    where: {
-      status: searchedStatus as Status,
-    },
-  });
-
-  const column: {
+  const columns: {
     label: string;
     value: keyof Issue;
     className?: string;
@@ -35,25 +21,40 @@ const IssuePage = async ({ searchParams }: Props) => {
     { label: "created", value: "createdAt", className: "hidden md:table-cell" },
   ];
 
+  const awaitedSearchParams = await searchParams;
+  const { status, orderBy } = await searchParams;
+
+  const statuses = Object.values(Status);
+  const searchedStatus = statuses.includes(status as Status)
+    ? status
+    : undefined;
+
+  const validateOrderBy =
+    orderBy === "asc" || orderBy === "desc" ? orderBy : "asc";
+
+  const issues = await prisma.issue.findMany({
+    where: {
+      status: searchedStatus as Status,
+    },
+
+    orderBy: {
+      title: validateOrderBy,
+    },
+  });
+
   return (
     <div>
       <IssueActions />
       <Table.Root variant="surface">
         <Table.Header>
           <Table.Row>
-            {column.map((column) => (
+            {columns.map((column) => (
               <Table.Cell key={column.value} className={column.className}>
-                <NextLink
-                  href={{
-                    query: { ...awaitedSearchParams, orderBy: column.value },
-                  }}
-                >
-                  {" "}
+                <Flex gap={"4"}>
                   {column.label}
-                  {column.value === orderBy && (
-                    <AiOutlineArrowUp className="inline ml-2" />
-                  )}
-                </NextLink>
+                  {orderBy === "asc" && <AiOutlineArrowUp />}
+                  {orderBy === "desc" && <AiOutlineArrowDown />}
+                </Flex>
               </Table.Cell>
             ))}
           </Table.Row>
