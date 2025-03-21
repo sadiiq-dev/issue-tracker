@@ -6,8 +6,13 @@ import { IssueStatusBadge, Link } from "../components/index";
 import { Issue, Status } from "@prisma/client";
 import NextLink from "next/link";
 import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
+import Pagination from "../components/Pagination";
 interface Props {
-  searchParams: Promise<{ status: string; orderBy: "asc" | "desc" }>;
+  searchParams: Promise<{
+    status: string;
+    orderBy: "asc" | "desc";
+    page: string;
+  }>;
 }
 
 const IssuePage = async ({ searchParams }: Props) => {
@@ -22,7 +27,7 @@ const IssuePage = async ({ searchParams }: Props) => {
   ];
 
   const awaitedSearchParams = await searchParams;
-  const { status, orderBy } = await searchParams;
+  const { status, orderBy, page } = await searchParams;
 
   const statuses = Object.values(Status);
   const searchedStatus = statuses.includes(status as Status)
@@ -32,6 +37,8 @@ const IssuePage = async ({ searchParams }: Props) => {
   const validateOrderBy =
     orderBy === "asc" || orderBy === "desc" ? orderBy : "asc";
 
+  const pageSize = 10;
+  const currentPage = parseInt(page) || 1;
   const issues = await prisma.issue.findMany({
     where: {
       status: searchedStatus as Status,
@@ -40,6 +47,13 @@ const IssuePage = async ({ searchParams }: Props) => {
     orderBy: {
       title: validateOrderBy,
     },
+
+    skip: (currentPage - 1) * pageSize,
+    take: pageSize,
+  });
+
+  const itemCount = await prisma.issue.count({
+    where: { status: searchedStatus as Status },
   });
 
   return (
@@ -78,6 +92,11 @@ const IssuePage = async ({ searchParams }: Props) => {
           ))}
         </Table.Body>
       </Table.Root>
+      <Pagination
+        itemCount={itemCount}
+        pageSize={pageSize}
+        currentPage={currentPage}
+      />
     </div>
   );
 };

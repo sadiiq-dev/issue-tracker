@@ -24,6 +24,8 @@ const Pagination = ({ currentPage, itemCount, pageSize }: Props) => {
     params.set("page", page.toString());
     router.push("?" + params.toString());
   };
+
+  if (currentPage < 1) return null;
   return (
     <Flex align={"center"} gap={"2"}>
       <Button
@@ -42,7 +44,9 @@ const Pagination = ({ currentPage, itemCount, pageSize }: Props) => {
       >
         <ChevronLeftIcon />
       </Button>
-      <Box>{currentPage}</Box>
+      <Box>
+        {currentPage} of {pageCount}
+      </Box>
       <Button
         color="gray"
         variant="soft"
