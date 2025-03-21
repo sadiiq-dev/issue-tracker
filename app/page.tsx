@@ -1,9 +1,19 @@
 import Pagination from "./components/Pagination";
 
-export default function Home() {
+interface Props {
+  searchParams: Promise<{ page: string }>;
+}
+
+export default async function Home({ searchParams }: Props) {
+  const pageNumber = (await searchParams).page;
+  console.log(searchParams);
   return (
     <div>
-      <Pagination currentPage={10} itemCount={100} pageSize={10} />
+      <Pagination
+        currentPage={parseInt(pageNumber)}
+        itemCount={100}
+        pageSize={10}
+      />
     </div>
   );
 }
