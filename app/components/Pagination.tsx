@@ -27,7 +27,7 @@ const Pagination = ({ currentPage, itemCount, pageSize }: Props) => {
 
   if (currentPage < 1) return null;
   return (
-    <Flex align={"center"} gap={"2"}>
+    <Flex align={"center"} gap={"2"} mt={"3"}>
       <Button
         color="gray"
         variant="soft"
@@ -50,7 +50,7 @@ const Pagination = ({ currentPage, itemCount, pageSize }: Props) => {
       <Button
         color="gray"
         variant="soft"
-        disabled={currentPage === pageSize}
+        disabled={currentPage === pageCount}
         onClick={() => changePage(currentPage + 1)}
       >
         <ChevronRightIcon />
@@ -58,7 +58,7 @@ const Pagination = ({ currentPage, itemCount, pageSize }: Props) => {
       <Button
         color="gray"
         variant="soft"
-        disabled={currentPage === pageSize}
+        disabled={currentPage === pageCount}
         onClick={() => changePage(pageCount)}
       >
         <DoubleArrowRightIcon />
