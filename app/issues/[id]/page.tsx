@@ -5,10 +5,10 @@ import EditButton from "./EditButton";
 import GoBackButton from "./GoBackButton";
 import IssueDetail from "./IssueDetail";
 import DeleteButton from "./DeleteButton";
-import { getSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import authOptions from "@/app/auth/authOptions";
 import SelectAssignee from "./SelectAssignee";
+
 interface Props {
   params: { id: string };
 }
@@ -38,6 +38,22 @@ const issueDetailPage = async ({ params }: Props) => {
       </Grid>
     </>
   );
+};
+
+export const generateMetadata = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const id = parseInt((await params).id);
+  const issue = await prisma.issue.findUnique({
+    where: { id },
+  });
+
+  return {
+    title: issue?.title,
+    description: "Details of issue " + issue?.id,
+  };
 };
 
 export default issueDetailPage;
