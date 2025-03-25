@@ -8,7 +8,11 @@ interface Params {
   id: string;
 }
 
-export const PUT = async (req: NextRequest, { params }: { params: Params }) => {
+export const PUT = async (
+  req: NextRequest,
+  { params }: { params: Promise<Params> }
+) => {
+  const id = parseInt((await params).id);
   try {
     const session = await getServerSession(authOptions);
     if (!session) return NextResponse.json({}, { status: 401 });
@@ -19,7 +23,7 @@ export const PUT = async (req: NextRequest, { params }: { params: Params }) => {
       return NextResponse.json(validation.error.errors, { status: 400 });
 
     const issue = await prisma.issue.findUnique({
-      where: { id: parseInt(params.id) },
+      where: { id },
     });
 
     if (!issue)
@@ -40,7 +44,7 @@ export const PUT = async (req: NextRequest, { params }: { params: Params }) => {
     }
 
     const updatedIssue = await prisma.issue.update({
-      where: { id: parseInt(params.id) },
+      where: { id },
       data: {
         title,
         description,

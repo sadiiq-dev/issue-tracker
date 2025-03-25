@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { AiFillDelete } from "react-icons/ai";
 
-const DeleteButton = ({ issueId }: { issueId: Number }) => {
+const DeleteButton = ({ issueId }: { issueId: number }) => {
   const router = useRouter();
   return (
     <Container>
@@ -22,7 +22,7 @@ const DeleteButton = ({ issueId }: { issueId: Number }) => {
           <AlertDialog.Title>Confirm To Delete</AlertDialog.Title>
           <AlertDialog.Description>
             Are you sure you want to delete this issue? Make sure this action
-            doesn't have an undo.
+            doesn&#39;t have an undo.
           </AlertDialog.Description>
           <Flex mt={"4"} gap={"6"}>
             <AlertDialog.Cancel>

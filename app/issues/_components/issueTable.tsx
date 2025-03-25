@@ -16,7 +16,7 @@ interface Props {
 }
 
 const IssueTable = async ({ searchParams, issues }: Props) => {
-  const { status, orderBy, page } = await searchParams;
+  const { orderBy } = await searchParams;
   const columns: {
     label: string;
     value: keyof Issue;

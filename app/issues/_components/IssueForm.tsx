@@ -11,8 +11,9 @@ import { useForm } from "react-hook-form";
 import { Issue } from "@prisma/client";
 
 interface FormNewIssue {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
+  assignedToUserId?: string | null;
 }
 
 interface Props {
@@ -26,8 +27,13 @@ function IssueForm({ issue }: Props) {
     formState: { errors },
   } = useForm<FormNewIssue>({
     resolver: zodResolver(schemaUpdateIssue),
+    defaultValues: {
+      title: issue?.title,
+      description: issue?.description,
+      assignedToUserId: issue?.assignedToUserId || null,
+    },
   });
-  const [error, setError] = useState(""); // Declared here
+  const [error, setError] = useState("");
   const [isSubmitting, setSubmitting] = useState(false);
   const router = useRouter();
 
