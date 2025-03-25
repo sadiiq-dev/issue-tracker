@@ -76,6 +76,7 @@ const AuthStatus = () => {
                 border: "2px solid #fff",
                 boxShadow: "0 0 0 2px #000",
               }}
+              referrerPolicy="no-referrer"
             />
           </div>
         </DropdownMenu.Trigger>
