@@ -25,7 +25,7 @@ const Pagination = ({ currentPage, itemCount, pageSize }: Props) => {
     router.push("?" + params.toString());
   };
 
-  if (currentPage < 1) return null;
+  if (pageCount < 1) return null;
   return (
     <Flex align={"center"} gap={"2"} mt={"3"}>
       <Button
