@@ -34,7 +34,7 @@ const IssuePage = async ({ searchParams }: Props) => {
     },
 
     orderBy: {
-      title: validateOrderBy,
+      createdAt: validateOrderBy,
     },
 
     skip: (currentPage - 1) * pageSize,
