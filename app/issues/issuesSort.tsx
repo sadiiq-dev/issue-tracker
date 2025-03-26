@@ -13,7 +13,7 @@ const IssuesSort = () => {
   ];
   return (
     <Select.Root
-      defaultValue={searchParams.get("orderBy")!}
+      defaultValue={searchParams.get("orderBy") || "None"}
       onValueChange={(orderBy) => {
         const params = new URLSearchParams();
         if (orderBy) params.append("orderBy", orderBy);

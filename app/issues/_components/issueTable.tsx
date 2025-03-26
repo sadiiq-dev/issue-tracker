@@ -7,7 +7,7 @@ import { AiOutlineArrowUp, AiOutlineArrowDown } from "react-icons/ai";
 
 interface Props {
   searchParams: Promise<{
-    status: string;
+    status: string | undefined;
     orderBy: "asc" | "desc";
     page: string;
   }>;

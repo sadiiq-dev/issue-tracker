@@ -1,5 +1,4 @@
 import { prisma } from "@/prisma/client";
-import { Status } from "@prisma/client";
 import Pagination from "../components/Pagination";
 import IssueTable from "./_components/issueTable";
 import IssueActions from "./IssueActions";
@@ -7,19 +6,21 @@ import { Metadata } from "next";
 
 interface Props {
   searchParams: Promise<{
-    status: string;
+    status: string | undefined;
     orderBy: "asc" | "desc";
     page: string;
   }>;
 }
 
 const IssuePage = async ({ searchParams }: Props) => {
-  const { status, orderBy, page } = await searchParams;
+  const { orderBy, page } = await searchParams;
+  let { status } = await searchParams;
 
-  const statuses = Object.values(Status);
-  const searchedStatus = statuses.includes(status as Status)
-    ? status
-    : undefined;
+  if (
+    status === "all" ||
+    !["OPEN", "CLOSED", "IN_PROGRESS"].includes(status as string)
+  )
+    status = undefined;
 
   const validateOrderBy =
     orderBy === "asc" || orderBy === "desc" ? orderBy : "asc";
@@ -29,7 +30,7 @@ const IssuePage = async ({ searchParams }: Props) => {
 
   const issues = await prisma.issue.findMany({
     where: {
-      status: searchedStatus as Status,
+      status: status,
     },
 
     orderBy: {
@@ -41,7 +42,7 @@ const IssuePage = async ({ searchParams }: Props) => {
   });
 
   const itemCount = await prisma.issue.count({
-    where: { status: searchedStatus as Status },
+    where: { status: status },
   });
 
   return (
